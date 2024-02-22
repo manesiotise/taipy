@@ -54,13 +54,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Test token
-        run: echo ${{ secrets[format('PYPI_API_TOKEN_{0}', matrix.package )] }}
-
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          verbose: true
 
   test-published-package:
     needs: [publish-subpackages-to-pypi]
