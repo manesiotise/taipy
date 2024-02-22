@@ -14,7 +14,8 @@ from pathlib import Path
 
 from setuptools import find_namespace_packages, find_packages, setup
 
-root_folder = Path(__file__).parent
+package_root_folder = Path(__file__).parent
+root_folder = package_root_folder.parent.parent
 
 with open("README.md") as readme_file:
     readme = readme_file.read()
@@ -29,8 +30,9 @@ with open(version_path) as version_file:
 
 def get_requirements():
     # get requirements from the different setups in tools/packages (removing taipy packages)
+    base_folder = root_folder if root_folder.exists() else package_root_folder
     reqs = set()
-    for pkg in (root_folder / "tools" / "packages").iterdir():
+    for pkg in (base_folder / "tools" / "packages").iterdir():
         requirements_file = pkg / "setup.requirements.txt"
         if requirements_file.exists():
             reqs.update(requirements_file.read_text("UTF-8").splitlines())
